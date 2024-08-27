@@ -149,7 +149,8 @@ def _on_show_answer(self):
     for i in range(0, 9):
         field = config['answerField' + str(i)]
         strip_html = config['stripHtml']
-        is_copied = copy_field(field, strip_html, self.card)
+        strip_furigana = config['stripFurigana']
+        is_copied = copy_field(field, strip_html, strip_furigana, self.card)
         if not is_copied:
             continue
         return
