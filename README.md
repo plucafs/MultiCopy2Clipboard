@@ -27,34 +27,11 @@ Copy a note field's text during reviews
 
 ### Configs
 [⮤ Back to top](#multicopy2clipboard)
-
-#### questionField and answerField
-
-Inside the **questionField0**, place the name of the note field you want to copy when the question is displayed.
-
-Inside the **answerField0**, place the name of the note field you want to copy when the answer is displayed.
-
-Each subsequent questionField and answerField (1, 2, 3, ...) are used as **fallbacks**.
-They'll be used until a value can be found.
-
-You can populate only the questionField(s) or answerField(s)
-
-#### stripHtml
-
-**stripHtml** determines if the html from the text of the note field will be removed or not.
-
-e.g. `100％の<b>ジュース</b>。 ⟶ 100％のジュース。` 
-
-(the **b** tag is removed)
-
-
-#### stripFurigana
-
-**stripFurigana** determines if the furigana from the text of the note field will be removed or not.
-
-e.g. `僕[ぼく]が正[まさ]しく導[みちび]かないと ⟶ 僕が正しく導かないと `
-
-(the furigana inside the **[** and **]** brackets is removed)
+| Config                      | Example                                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| --------------------------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| questionField / answerField | "questionField0": "Front",<br>"answerField0": "" | Inside the **questionField0**, place the name of the note field you want to copy when the question is displayed.<br><br>Inside the **answerField0**, place the name of the note field you want to copy when the answer is displayed.<br><br>Each subsequent questionField and answerField (1, 2, 3, ...) are used as **fallbacks**. They'll be used until a value can be found.<br><br>You can populate only the questionField(s) or answerField(s). |
+| stripHtml                   | `100％の<b>ジュース</b>。 ⟶ 100％のジュース。`                 | Determines if the html from the text of the note field will be removed or not.                                                                                                                                                                                                                                                                                                                                                                       |
+| stripFurigana               | `僕[ぼく]が正[まさ]しく導[みちび]かないと ⟶ 僕が正しく導かないと`           | Determines if the furigana from the text of the note field will be removed or not.                                                                                                                                                                                                                                                                                                                                                                   |
 
 
 #### Credits
