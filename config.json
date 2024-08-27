@@ -19,5 +19,6 @@
   "answerField7": "",
   "answerField8": "",
   "answerField9": "",
-  "stripHtml": true
+  "stripHtml": true,
+  "stripFurigana": false
 }

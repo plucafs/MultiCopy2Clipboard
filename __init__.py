@@ -46,13 +46,14 @@
 # Tested with Anki 2.1.5
 # Contact: kelciour@gmail.com
 ###############################################################################
-# Version: 1.3
+# Version: 1.3, 1.4
 # Tested with Anki 24.06.3
 # Contact: plucafz@proton.me
 ###############################################################################
 
 #### Includes ####
 
+import re 
 from io import StringIO
 from html.parser import HTMLParser
 from aqt import mw
@@ -82,26 +83,51 @@ class MLStripper(HTMLParser):
         return self.text.getvalue()
 
 
-def strip_tags(html):
+def do_strip_html(text):
     s = MLStripper()
-    s.feed(html)
+    s.feed(text)
     return s.get_data()
 
 
-def copy_text_to_clipboard(text, strip_html):
+def do_strip_furigana(text):
+    """
+    Removes the text inside the opening ([) and closing (]) square brackets.
+
+    Removes the brackets.
+
+    Useful for stripping furigana from japanese sentences formatted like this:
+
+    僕[ぼく]が正[まさ]しく導[みちび]かないと ⟶ 僕が正しく導かないと
+    """
+    ret = ''
+    skip1c = 0
+    skip2c = 0
+    for i in text:
+        if i == '[':
+            skip1c += 1
+        elif i == ']' and skip1c > 0:
+            skip1c -= 1
+        elif skip1c == 0 and skip2c == 0:
+            ret += i
+    return ret
+
+
+def copy_text_to_clipboard(text, strip_html, strip_furigana):
     clipboard = QApplication.clipboard()
     if strip_html:
-        text = strip_tags(text)
+        text = do_strip_html(text)
+    if strip_furigana:
+        text = do_strip_furigana(text)
     clipboard.setText(text)
-#
 
-def copy_field(field_to_copy, strip_html, card):
+
+def copy_field(field_to_copy, strip_html, strip_furigana, card):
     is_copied = False
     for field in card.model()['flds']:
         fieldName = field['name']
         if(fieldName == field_to_copy):
             value = card.note()[fieldName]
-            copy_text_to_clipboard(value, strip_html)
+            copy_text_to_clipboard(value, strip_html, strip_furigana)
             is_copied = True
     return is_copied
 
@@ -111,7 +137,8 @@ def _on_show_question(self):
     for i in range(0, 9):
         field = config['questionField' + str(i)]
         strip_html = config['stripHtml']
-        is_copied = copy_field(field, strip_html, self.card)
+        strip_furigana = config['stripFurigana']
+        is_copied = copy_field(field, strip_html, strip_furigana, self.card)
         if not is_copied:
             continue
         return
